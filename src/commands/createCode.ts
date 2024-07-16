@@ -8,7 +8,7 @@ import { getAllFileName } from "../utils/allFiles";
 import { getApiData } from "../utils/apiData";
 import { existsSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
-import path from "path";
+import path from "node:path";
 import { fileRead, fileWrite } from "../utils/fileSystem";
 import { rootUrl } from "../utils/helpers";
 import type { GlobalConfig, GlobalConfigFile } from "../types";
@@ -98,7 +98,9 @@ export default class CreateCode {
       },
     ];
 
-    const answers = await inquirer.prompt(createCodeQuestion);
+    const prompt = inquirer.createPromptModule();
+
+    const answers = await prompt(createCodeQuestion);
 
     if (!answers.fileName && codeName) {
       answers.fileName = codeName;

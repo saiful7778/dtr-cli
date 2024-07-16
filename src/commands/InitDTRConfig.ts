@@ -3,9 +3,10 @@ import { mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import type { QuestionArray } from "inquirer/dist/cjs/types/types";
 import { createSpinner } from "nanospinner";
-import path from "path";
+import path from "node:path";
 import { jsonFileWrite } from "../utils/fileSystem";
 import type { DtrConfig } from "../types";
+import { dtrConfigStaterData } from "../utils/staterCode";
 
 interface ModifyQuestion {
   modifyData: boolean;
@@ -17,10 +18,7 @@ export default class InitDTRConfig {
     this.currentPath,
     "dtr-config.json"
   );
-  private configData: DtrConfig = {
-    codeFolder: "",
-    addedCode: [],
-  };
+  private configData: DtrConfig = dtrConfigStaterData;
 
   private async getConfigData(): Promise<DtrConfig> {
     const configQuestion: QuestionArray<DtrConfig> = [
@@ -32,8 +30,9 @@ export default class InitDTRConfig {
       },
     ];
 
-    // config question answers
-    return inquirer.prompt(configQuestion);
+    const prompt = inquirer.createPromptModule();
+
+    return prompt(configQuestion);
   }
 
   private async updateDtrConfigAnswers() {
@@ -46,7 +45,9 @@ export default class InitDTRConfig {
       },
     ];
 
-    const modifyAnswer = await inquirer.prompt(modifyQuestion);
+    const prompt = inquirer.createPromptModule();
+
+    const modifyAnswer = await prompt(modifyQuestion);
 
     return new Promise((resolve) => {
       if (!modifyAnswer.modifyData) {

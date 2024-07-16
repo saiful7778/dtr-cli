@@ -2,6 +2,7 @@ import type { GlobalConfig } from "../types";
 import { jsonFileRead, jsonFileWrite } from "./fileSystem";
 import { globalConfigPath } from "./helpers";
 import { existsSync } from "node:fs";
+import { globalConfigStaterData } from "./staterCode";
 
 export async function getGlobalConfigData(): Promise<GlobalConfig> {
   const isExist = existsSync(globalConfigPath);
@@ -10,13 +11,9 @@ export async function getGlobalConfigData(): Promise<GlobalConfig> {
 
     return configData;
   } else {
-    const defaultConfigData: GlobalConfig = {
-      allFiles: [],
-    };
+    await jsonFileWrite(globalConfigPath, globalConfigStaterData);
 
-    await jsonFileWrite(globalConfigPath, defaultConfigData);
-
-    return defaultConfigData;
+    return globalConfigStaterData;
   }
 }
 

@@ -18,8 +18,5 @@ export default {
       tsconfig: "./tsconfig.json",
     }),
   ],
-  external: [
-    ...Object.keys(pkg.dependencies || {}),
-    ...Object.keys(pkg.peerDependencies || {}),
-  ],
+  external: [...Object.keys(pkg.dependencies || {})],
 };

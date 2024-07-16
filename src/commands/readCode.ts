@@ -15,7 +15,9 @@ export default class ReadCode {
       },
     ];
 
-    return inquirer.prompt(fileNameQuestion);
+    const prompt = inquirer.createPromptModule();
+
+    return prompt(fileNameQuestion);
   }
 
   private async getFileData(

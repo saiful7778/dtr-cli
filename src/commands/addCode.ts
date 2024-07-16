@@ -26,8 +26,9 @@ export default class AddCode {
         choices: allFiles as any,
       },
     ];
+    const prompt = inquirer.createPromptModule();
 
-    return inquirer.prompt(fileNameQuestion);
+    return prompt(fileNameQuestion);
   }
 
   public async addCodeCommand(_codeName?: string) {

@@ -28,7 +28,9 @@ export default class DeleteCode {
       },
     ];
 
-    return inquirer.prompt(fileNameQuestion);
+    const prompt = inquirer.createPromptModule();
+
+    return prompt(fileNameQuestion);
   }
 
   public async deleteCodeCommand() {
