@@ -2,11 +2,11 @@
   "name": "dtr-cli",
   "version": "0.0.2",
   "description": "DTR is an open source developer helping CLI tool build on typescript",
-  "main": "build/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "start": "node ./build/index.js",
-    "test": "tsc && node ./build/index.js"
+    "build": "rollup -c rollup.config.js --bundleConfigAsCjs",
+    "test": "node build/index.js"
   },
   "bin": {
     "dtr": "./build/index.js"
@@ -18,13 +18,19 @@
     "type": "git",
     "url": "git+https://github.com/saiful7778/dtr-cli"
   },
+  "bugs": {
+    "url": "https://github.com/saiful7778/dtr-cli/issues"
+  },
   "keywords": [
     "cli"
   ],
   "author": "Saiful Islam",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/node": "^20.14.10",
+    "rollup": "^4.18.1",
     "typescript": "^5.5.3"
   },
   "dependencies": {
