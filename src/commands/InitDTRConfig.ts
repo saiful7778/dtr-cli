@@ -19,6 +19,7 @@ export default class InitDTRConfig {
   );
   private configData: DtrConfig = {
     codeFolder: "",
+    addedCode: [],
   };
 
   private async getConfigData(): Promise<DtrConfig> {
@@ -59,9 +60,7 @@ export default class InitDTRConfig {
   public async initCommand(codeFolder?: string) {
     // start spinner
     const spinner = createSpinner();
-    this.configData = {
-      codeFolder: codeFolder!,
-    };
+    this.configData.codeFolder = codeFolder!;
 
     try {
       if (existsSync(this.dtrConfigFilePath)) {
@@ -70,7 +69,7 @@ export default class InitDTRConfig {
 
       if (!this.configData.codeFolder) {
         const dtrConfigAnswers = await this.getConfigData();
-        this.configData = dtrConfigAnswers;
+        this.configData.codeFolder = dtrConfigAnswers.codeFolder;
       }
 
       await jsonFileWrite(this.dtrConfigFilePath, this.configData);
