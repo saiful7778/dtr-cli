@@ -6,6 +6,7 @@ import InitDTRConfig from "./commands/InitDTRConfig";
 import CreateCode from "./commands/createCode";
 import ReadCode from "./commands/readCode";
 import AddCode from "./commands/addCode";
+import DeleteCode from "./commands/deleteCode";
 
 class MainProgram {
   private name = "dtr";
@@ -26,6 +27,7 @@ class MainProgram {
     this.addCodeFile();
     this.createNewCodeFile();
     this.readCodeFile();
+    this.deleteCodeFile();
   }
 
   private initDtrConfigFile() {
@@ -44,8 +46,9 @@ class MainProgram {
     this.program
       .command("add")
       .description("Add code file into your directory")
-      .action(async () => {
-        addCodeFile.addCodeCommand.bind(addCodeFile)();
+      .option("-n, --name <codeName>", "Name of the code file")
+      .action(async (flags: { name?: string }) => {
+        addCodeFile.addCodeCommand.bind(addCodeFile)(flags.name);
       });
   }
 
@@ -57,8 +60,7 @@ class MainProgram {
       .option("-n, --name <codeName>", "Name of the code file")
       .option(
         "-f, --from <codeFrom>",
-        "Source of the code file. accept 'local' | 'internet'",
-        "local"
+        "Source of the code file. accept 'local' | 'internet'"
       )
       .option(
         "-u, --url <internetURL>",
@@ -93,6 +95,16 @@ class MainProgram {
       .option("-n, --name <codeName>", "Name of the code file")
       .action(async (flags: { name?: string }) => {
         readCodeData.readCodeCommand.bind(readCodeData)(flags.name);
+      });
+  }
+
+  private deleteCodeFile() {
+    const deleteCodeFile = new DeleteCode();
+    this.program
+      .command("delete")
+      .description("Delete global code file")
+      .action(async () => {
+        deleteCodeFile.deleteCodeCommand.bind(deleteCodeFile)();
       });
   }
 

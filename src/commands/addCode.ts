@@ -30,7 +30,7 @@ export default class AddCode {
     return inquirer.prompt(fileNameQuestion);
   }
 
-  public async addCodeCommand() {
+  public async addCodeCommand(_codeName?: string) {
     const spinner = createSpinner();
 
     try {
