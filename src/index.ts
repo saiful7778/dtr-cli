@@ -2,6 +2,7 @@
 
 import { Command } from "commander";
 import process from "node:process";
+import InitDTRConfig from "./commands/InitDTRConfig";
 
 class MainProgram {
   private name = "dtr";
@@ -18,7 +19,19 @@ class MainProgram {
       .description(this.description)
       .version(this.version);
 
+    this.initDtrConfigFile();
     this.createNewCodeFile();
+  }
+
+  private initDtrConfigFile() {
+    const initCommand = new InitDTRConfig();
+    this.program
+      .command("init")
+      .description("Initialize the dtr-config.json configuration file")
+      .option("-c, --code <codeFolder>", "Path for code file directory")
+      .action((flags: { code?: string }) => {
+        initCommand.initCommand.bind(initCommand)(flags?.code);
+      });
   }
 
   private createNewCodeFile() {

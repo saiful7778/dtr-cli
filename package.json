@@ -5,7 +5,8 @@
   "main": "build/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node ./build/index.js"
+    "start": "node ./build/index.js",
+    "test": "tsc && node ./build/index.js"
   },
   "bin": {
     "dtr": "./build/index.js"
