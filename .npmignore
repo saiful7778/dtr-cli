@@ -1,0 +1,5 @@
+/node_modules
+/src
+configData.json
+dtr-config.json
+/build/allFiles

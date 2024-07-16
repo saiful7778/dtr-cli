@@ -1,5 +1,5 @@
 {
-  "name": "dtr",
+  "name": "dtr-cli",
   "version": "0.0.1",
   "description": "DTR is an open source developer helping CLI tool build on typescript",
   "main": "build/index.js",
@@ -13,6 +13,13 @@
   },
   "files": [
     "build"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saiful7778/dtr-cli"
+  },
+  "keywords": [
+    "cli"
   ],
   "author": "Saiful Islam",
   "license": "MIT",
