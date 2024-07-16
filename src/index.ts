@@ -4,6 +4,7 @@ import { Command } from "commander";
 import process from "node:process";
 import InitDTRConfig from "./commands/InitDTRConfig";
 import CreateCode from "./commands/createCode";
+import ReadCode from "./commands/readCode";
 
 class MainProgram {
   private name = "dtr";
@@ -22,6 +23,7 @@ class MainProgram {
 
     this.initDtrConfigFile();
     this.createNewCodeFile();
+    this.readCodeFile();
   }
 
   private initDtrConfigFile() {
@@ -69,6 +71,17 @@ class MainProgram {
           );
         }
       );
+  }
+
+  private readCodeFile() {
+    const readCodeData = new ReadCode();
+    this.program
+      .command("read")
+      .description("Read all code file")
+      .option("-n, --name <codeName>", "Name of the code file")
+      .action(async (flags: { name?: string }) => {
+        readCodeData.readCodeCommand.bind(readCodeData)(flags.name);
+      });
   }
 
   public getProgram() {
