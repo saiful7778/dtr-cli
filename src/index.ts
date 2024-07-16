@@ -3,6 +3,7 @@
 import { Command } from "commander";
 import process from "node:process";
 import InitDTRConfig from "./commands/InitDTRConfig";
+import CreateCode from "./commands/createCode";
 
 class MainProgram {
   private name = "dtr";
@@ -35,6 +36,7 @@ class MainProgram {
   }
 
   private createNewCodeFile() {
+    const newCode = new CreateCode();
     this.program
       .command("create")
       .description("Create new code file")
@@ -44,9 +46,29 @@ class MainProgram {
         "Source of the code file. accept 'local' | 'internet'",
         "local"
       )
-      .action(async (flags) => {
-        console.log(flags);
-      });
+      .option(
+        "-u, --url <internetURL>",
+        "Github code URL if you select 'codeFrom' as 'internet'"
+      )
+      .option(
+        "-p, --path <localPath>",
+        "Current dir file path if you select 'codeFrom' as 'local'"
+      )
+      .action(
+        async (flags: {
+          name?: string;
+          from?: "local" | "internet";
+          url?: string;
+          path?: string;
+        }) => {
+          newCode.createCodeCommand.bind(newCode)(
+            flags?.name,
+            flags?.from,
+            flags?.url,
+            flags?.path
+          );
+        }
+      );
   }
 
   public getProgram() {

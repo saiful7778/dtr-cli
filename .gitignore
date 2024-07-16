@@ -1,6 +1,7 @@
 /node_modules
 *.lockb
 /build
+configData.json
 dtr-config.json
 code/
 coding/
