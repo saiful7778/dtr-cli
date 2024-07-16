@@ -6,3 +6,8 @@ export interface GlobalConfigFile {
 export interface GlobalConfig {
   allFiles: GlobalConfigFile[];
 }
+
+export interface DtrConfig {
+  codeFolder: string;
+  addedCode?: GlobalConfigFile[];
+}

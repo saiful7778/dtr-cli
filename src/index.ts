@@ -5,6 +5,7 @@ import process from "node:process";
 import InitDTRConfig from "./commands/InitDTRConfig";
 import CreateCode from "./commands/createCode";
 import ReadCode from "./commands/readCode";
+import AddCode from "./commands/addCode";
 
 class MainProgram {
   private name = "dtr";
@@ -22,6 +23,7 @@ class MainProgram {
       .version(this.version);
 
     this.initDtrConfigFile();
+    this.addCodeFile();
     this.createNewCodeFile();
     this.readCodeFile();
   }
@@ -34,6 +36,16 @@ class MainProgram {
       .option("-c, --code <codeFolder>", "Path for code file directory")
       .action((flags: { code?: string }) => {
         initCommand.initCommand.bind(initCommand)(flags?.code);
+      });
+  }
+
+  private addCodeFile() {
+    const addCodeFile = new AddCode();
+    this.program
+      .command("add")
+      .description("Add code file into your directory")
+      .action(async () => {
+        addCodeFile.addCodeCommand.bind(addCodeFile)();
       });
   }
 

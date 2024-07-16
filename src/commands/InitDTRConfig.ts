@@ -5,10 +5,7 @@ import type { QuestionArray } from "inquirer/dist/cjs/types/types";
 import { createSpinner } from "nanospinner";
 import path from "path";
 import { jsonFileWrite } from "../utils/fileSystem";
-
-interface DtrConfigOptions {
-  codeFolder: string;
-}
+import type { DtrConfig } from "../types";
 
 interface ModifyQuestion {
   modifyData: boolean;
@@ -20,12 +17,12 @@ export default class InitDTRConfig {
     this.currentPath,
     "dtr-config.json"
   );
-  private configData: DtrConfigOptions = {
+  private configData: DtrConfig = {
     codeFolder: "",
   };
 
-  private async getConfigData(): Promise<DtrConfigOptions> {
-    const configQuestion: QuestionArray<DtrConfigOptions> = [
+  private async getConfigData(): Promise<DtrConfig> {
+    const configQuestion: QuestionArray<DtrConfig> = [
       {
         type: "input",
         name: "codeFolder",
@@ -67,9 +64,7 @@ export default class InitDTRConfig {
     };
 
     try {
-      const isDtrConfigExist = existsSync(this.dtrConfigFilePath);
-
-      if (isDtrConfigExist) {
+      if (existsSync(this.dtrConfigFilePath)) {
         await this.updateDtrConfigAnswers();
       }
 
