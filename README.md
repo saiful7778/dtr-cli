@@ -1,6 +1,7 @@
 # DTR CLI tool
 
-![dtr-cli](https://github.com/user-attachments/assets/54cd87ab-e75d-4412-90dc-5c451dac1b7a)
+![DTR - CLI thumbnail](https://github.com/user-attachments/assets/3c480c21-11ba-4976-bdb3-6a30ebf6bc3b)
+
 
 
 1. [Introduction](#introduction)
