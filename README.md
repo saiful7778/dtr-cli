@@ -1,5 +1,8 @@
 # DTR CLI tool
 
+![dtr-cli](https://github.com/user-attachments/assets/54cd87ab-e75d-4412-90dc-5c451dac1b7a)
+
+
 1. [Introduction](#introduction)
 2. [Installation](#installation)
 3. [Usage](#usage)
