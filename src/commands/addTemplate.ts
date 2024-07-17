@@ -4,13 +4,23 @@ import type { QuestionArray } from "inquirer/dist/cjs/types/types";
 import inquirer from "inquirer";
 import createDirContents from "../utils/createDirContents";
 import process from "node:process";
+import { mkdir } from "node:fs/promises";
+import path from "node:path";
 
 export default class AddTemplate {
   private readonly currentUrl = process.cwd();
   private async questionAnswers(
     templates: string[]
-  ): Promise<{ templateName: string }> {
-    const questions: QuestionArray<{ templateName: string }> = [
+  ): Promise<{ templateName: string; folderName: string }> {
+    const questions: QuestionArray<{
+      templateName: string;
+      folderName: string;
+    }> = [
+      {
+        type: "input",
+        name: "folderName",
+        message: "Template folder name:",
+      },
       {
         type: "list",
         name: "templateName",
@@ -42,16 +52,20 @@ export default class AddTemplate {
 
       const templateName = await this.questionAnswers(allTemplates);
 
-      const templatePath = globalConfigData.allTemplates.find(
+      const template = globalConfigData.allTemplates.find(
         (template) => template.templateName === templateName.templateName
       );
 
-      if (!templatePath) {
+      if (!template) {
         console.error("template path not found");
         process.exit(1);
       }
 
-      createDirContents(templatePath.templateFolder, this.currentUrl);
+      const templatePath = path.join(this.currentUrl, templateName.folderName);
+
+      await mkdir(templatePath);
+
+      createDirContents(template.templateFolder, templatePath);
     } catch (err) {
       console.error("\nError:", err);
       spinner.error({ text: "Something went wrong" });
