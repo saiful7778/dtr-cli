@@ -44,7 +44,8 @@ class MainProgram {
   private addCodeFile() {
     const addCodeFile = new AddCode();
     this.program
-      .command("add [codeName]")
+      .command("add")
+      .argument("[codeName]", "Name of the code file you want to add")
       .description("Add code file into your directory")
       .action(async (codeName?: string) => {
         addCodeFile.addCodeCommand.bind(addCodeFile)(codeName);
