@@ -14,7 +14,7 @@ class MainProgram {
   private name = "dtr";
   private description =
     "DTR is an open source developer helping CLI tool build on typescript";
-  private version = "0.0.1";
+  private version = "0.2.4";
   private program: Command;
 
   constructor() {
