@@ -8,6 +8,7 @@ import ReadCode from "./commands/readCode";
 import AddCode from "./commands/addCode";
 import DeleteCode from "./commands/deleteCode";
 import CreateTemplate from "./commands/createTemplate";
+import AddTemplate from "./commands/addTemplate";
 
 class MainProgram {
   private name = "dtr";
@@ -30,6 +31,7 @@ class MainProgram {
     this.readCodeFile();
     this.deleteCodeFile();
     this.creatTemplate();
+    this.addTemplate();
   }
 
   private initDtrConfigFile() {
@@ -114,6 +116,7 @@ class MainProgram {
     const createTemplate = new CreateTemplate();
     this.program
       .command("create-template")
+      .description("Create new boilerplate template")
       .option("-n, --name", "Name of the template")
       .option("-s, --source", "Source folder of the template")
       .action(async (flags: { name?: string; source?: string }) => {
@@ -121,6 +124,16 @@ class MainProgram {
           flags.name,
           flags.source
         );
+      });
+  }
+
+  private addTemplate() {
+    const addTemplate = new AddTemplate();
+    this.program
+      .command("template")
+      .description("Add boilerplate template in current directory")
+      .action(async () => {
+        addTemplate.addTemplateCommand.bind(addTemplate)();
       });
   }
 
