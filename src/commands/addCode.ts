@@ -6,7 +6,7 @@ import { copyFile } from "node:fs/promises";
 import process from "node:process";
 import path from "node:path";
 import { getDtrConfigData, updateDtrConfigData } from "../utils/dtrConfig";
-import type { GlobalConfigFile } from "../types";
+import { DtrConfig, GlobalConfigFile } from "../types";
 
 export default class AddCode {
   private readonly currentPath = process.cwd();
@@ -31,7 +31,33 @@ export default class AddCode {
     return prompt(fileNameQuestion);
   }
 
-  public async addCodeCommand(_codeName?: string) {
+  private async dtrConfigUpdate(
+    prevDtrConfigData: DtrConfig,
+    addedCode: GlobalConfigFile[]
+  ) {
+    const allAddedCode = [...prevDtrConfigData.addedCode!, ...addedCode];
+
+    const newAddedCode: GlobalConfigFile[] = [];
+
+    allAddedCode.forEach((file) => {
+      const isExist = newAddedCode.find(
+        (codeFile) => codeFile.path === file.path
+      )
+        ? true
+        : false;
+
+      if (!isExist) {
+        newAddedCode.push(file);
+      }
+    });
+
+    await updateDtrConfigData(this.dtrConfigFilePath, {
+      ...prevDtrConfigData,
+      addedCode: newAddedCode,
+    });
+  }
+
+  public async addCodeCommand(codeName?: string) {
     const spinner = createSpinner();
 
     try {
@@ -44,40 +70,65 @@ export default class AddCode {
         process.exit(1);
       }
 
-      const allFilesNameAndValue = globalConfig.allFiles.map((file) => ({
-        name: file.fileName,
-        value: file.path,
-      }));
-
-      const allFilePaths = await this.getFileNames(allFilesNameAndValue);
-
       const dtrConfigData = await getDtrConfigData(this.dtrConfigFilePath);
-
-      spinner.start({ text: "Start processing...." });
 
       const codeFolderPath = path.join(
         this.currentPath,
         dtrConfigData.codeFolder
       );
 
-      const dtrAddedCode: GlobalConfigFile[] = [];
+      // if code name provide
+      if (codeName) {
+        const codeFile = globalConfig.allFiles.find(
+          (file) => file.fileName === codeName
+        );
+        if (!codeFile) {
+          console.error(`Could not found '${codeName}' code file.`);
+          process.exit(1);
+        }
+        spinner.start({ text: "Start processing...." });
+
+        const codeFilePath = path.join(codeFolderPath, codeFile.fileName);
+
+        await copyFile(codeFile.path, codeFilePath);
+
+        await this.dtrConfigUpdate(dtrConfigData, [
+          { fileName: codeFile.fileName, path: codeFilePath },
+        ]);
+
+        spinner.success({ text: "Processing successful." });
+
+        process.exit(0);
+      }
+
+      const allFilesNameAndValue = globalConfig.allFiles.map((file) => ({
+        name: file.fileName,
+        value: `${file.fileName} ${file.path}`,
+      }));
+
+      const filePathsValue = await this.getFileNames(allFilesNameAndValue);
+
+      spinner.start({ text: "Start processing...." });
+
+      const newAddedCode: GlobalConfigFile[] = [];
 
       await Promise.all(
-        allFilePaths.filePaths.map((filePath) => {
-          const fileName = filePath.match(/[^\/]+$/gi)![0];
+        filePathsValue.filePaths.map(async (filePath) => {
+          const fileValue = filePath.split(" ");
+          const fileName = fileValue[0];
 
           const codeFilePath = path.join(codeFolderPath, fileName);
 
-          dtrAddedCode.push({ fileName, path: codeFilePath });
+          newAddedCode.push({
+            fileName,
+            path: codeFilePath,
+          });
 
-          return copyFile(filePath, codeFilePath);
+          return copyFile(fileValue[1], codeFilePath);
         })
       );
 
-      await updateDtrConfigData(this.dtrConfigFilePath, {
-        ...dtrConfigData,
-        addedCode: [...dtrConfigData.addedCode!, ...dtrAddedCode],
-      });
+      await this.dtrConfigUpdate(dtrConfigData, newAddedCode);
 
       spinner.success({ text: "Processing successful." });
     } catch (err) {

@@ -3,5 +3,6 @@
 /build
 configData.json
 dtr-config.json
-code/
-coding/
+/code
+/coding
+/allFiles

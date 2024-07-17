@@ -44,11 +44,10 @@ class MainProgram {
   private addCodeFile() {
     const addCodeFile = new AddCode();
     this.program
-      .command("add")
+      .command("add [codeName]")
       .description("Add code file into your directory")
-      .option("-n, --name <codeName>", "Name of the code file")
-      .action(async (flags: { name?: string }) => {
-        addCodeFile.addCodeCommand.bind(addCodeFile)(flags.name);
+      .action(async (codeName?: string) => {
+        addCodeFile.addCodeCommand.bind(addCodeFile)(codeName);
       });
   }
 
