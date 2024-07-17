@@ -11,6 +11,10 @@ export default async function createDirContents(
   for (const fileAndFolder of filesAndFolders) {
     const originalPath = path.join(templatePath, fileAndFolder);
 
+    if (fileAndFolder === "node_modules") {
+      continue;
+    }
+
     const stats = await stat(originalPath);
 
     if (stats.isFile()) {
