@@ -3,8 +3,14 @@ export interface GlobalConfigFile {
   path: string;
 }
 
+export interface Template {
+  templateName: string;
+  templateFolder: string;
+}
+
 export interface GlobalConfig {
   allFiles: GlobalConfigFile[];
+  allTemplates: Template[];
 }
 
 export interface DtrConfig {

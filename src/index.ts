@@ -7,6 +7,7 @@ import CreateCode from "./commands/createCode";
 import ReadCode from "./commands/readCode";
 import AddCode from "./commands/addCode";
 import DeleteCode from "./commands/deleteCode";
+import CreateTemplate from "./commands/createTemplate";
 
 class MainProgram {
   private name = "dtr";
@@ -28,6 +29,7 @@ class MainProgram {
     this.createNewCodeFile();
     this.readCodeFile();
     this.deleteCodeFile();
+    this.creatTemplate();
   }
 
   private initDtrConfigFile() {
@@ -105,6 +107,20 @@ class MainProgram {
       .description("Delete global code file")
       .action(async () => {
         deleteCodeFile.deleteCodeCommand.bind(deleteCodeFile)();
+      });
+  }
+
+  private creatTemplate() {
+    const createTemplate = new CreateTemplate();
+    this.program
+      .command("create-template")
+      .option("-n, --name", "Name of the template")
+      .option("-s, --source", "Source folder of the template")
+      .action(async (flags: { name?: string; source?: string }) => {
+        createTemplate.createTemplateCode.bind(createTemplate)(
+          flags.name,
+          flags.source
+        );
       });
   }
 

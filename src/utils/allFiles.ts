@@ -8,3 +8,11 @@ export async function getAllFileName(filePath?: string): Promise<string[]> {
 
   return allFiles.filter((file) => lstatSync(file).isFile());
 }
+
+export async function getAllFolderName(folderPath?: string): Promise<string[]> {
+  const currentUrl = process.cwd();
+
+  const allFiles = await readdir(folderPath ?? currentUrl);
+
+  return allFiles.filter((file) => lstatSync(file).isDirectory());
+}
