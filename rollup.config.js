@@ -7,7 +7,7 @@ export default {
   output: {
     file: "build/index.js",
     format: "cjs",
-    sourcemap: true,
+    sourcemap: false,
   },
   plugins: [
     resolve({

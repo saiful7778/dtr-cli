@@ -2,8 +2,6 @@
 
 ![DTR - CLI thumbnail](https://github.com/user-attachments/assets/3c480c21-11ba-4976-bdb3-6a30ebf6bc3b)
 
-
-
 1. [Introduction](#introduction)
 2. [Installation](#installation)
 3. [Usage](#usage)
@@ -25,11 +23,45 @@ DTR-CLI is a command-line interface tool designed to help manage and interact wi
 
 ## Installation
 
+DTR-CLI already published on npm
+
 ```bash
 npm install -g dtr-cli
-# for linux or mac
-sudo npm install -g dtr-cli
 ```
+
+#### For Linux and Mac user
+
+1. Install package from npm:
+
+   ```bash
+   sudo npm install -g dtr-cli
+   ```
+
+2. Find `dtr-cli` global location:
+
+   ```bash
+   which dtr # it will return like `/usr/local/bin/dtr`
+   cd /usr/local/bin
+   ```
+
+3. Show `dtr-cli` all files:
+   ```bash
+   ls -la
+   ```
+   It will return something like this:
+   ```bash
+   lrwxrwxrwx 1 root root 42 Jul 17 23:09 dtr -> ../lib/node_modules/dtr-cli/build/index.js
+   ```
+   Go to this `node_modules` folder:
+   ```bash
+   cd ../lib/node_modules/
+   ```
+4. Add read write permission:
+   ```bash
+   sudo chmod 777 -R dtr-cli/
+   ```
+
+Now you are ready to use `dtr-cli` by `dtr` command
 
 ## Usage
 
