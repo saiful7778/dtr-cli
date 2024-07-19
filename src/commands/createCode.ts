@@ -10,7 +10,7 @@ import { existsSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileRead, fileWrite } from "../utils/fileSystem";
-import { rootUrl } from "../utils/helpers";
+import { codeFilePath } from "../utils/helpers";
 import type { GlobalConfig, GlobalConfigFile } from "../types";
 
 type CreateOptions = {
@@ -25,10 +25,6 @@ export default class CreateCode {
     /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|\d{1,3}(\.\d{1,3}){3}|\[?[a-f\d:]+\]?)?(:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/i;
 
   private readonly checkFileNameRegx = /^[a-zA-Z0-9_-]+\.[a-zA-Z0-9]+$/g;
-  private readonly globalAllCodeFileFolderPath = path.join(
-    rootUrl,
-    "../allFiles"
-  );
 
   private async questionsAnswers(
     codeName?: string,
@@ -164,12 +160,12 @@ export default class CreateCode {
   }
 
   private async getCodeFilePath(fileName: string) {
-    if (existsSync(this.globalAllCodeFileFolderPath)) {
-      return path.join(rootUrl, `../allFiles/${fileName}`);
+    if (existsSync(codeFilePath)) {
+      return path.join(codeFilePath, fileName);
     } else {
-      await mkdir(this.globalAllCodeFileFolderPath);
+      await mkdir(codeFilePath);
 
-      return path.join(this.globalAllCodeFileFolderPath, fileName);
+      return path.join(codeFilePath, fileName);
     }
   }
 

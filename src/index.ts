@@ -61,7 +61,7 @@ class MainProgram {
     this.program
       .command("create")
       .description("Create new code file")
-      .option("-n, --name <codeName>", "Name of the code file")
+      .argument("[codeName]", "Name of the code file")
       .option(
         "-f, --from <codeFrom>",
         "Source of the code file. accept 'local' | 'internet'"
@@ -75,14 +75,16 @@ class MainProgram {
         "Current dir file path if you select 'codeFrom' as 'local'"
       )
       .action(
-        async (flags: {
-          name?: string;
-          from?: "local" | "internet";
-          url?: string;
-          path?: string;
-        }) => {
+        async (
+          codeName?: string,
+          flags?: {
+            from?: "local" | "internet";
+            url?: string;
+            path?: string;
+          }
+        ) => {
           newCode.createCodeCommand.bind(newCode)(
-            flags?.name,
+            codeName,
             flags?.from,
             flags?.url,
             flags?.path
@@ -96,9 +98,9 @@ class MainProgram {
     this.program
       .command("read")
       .description("Read all code file")
-      .option("-n, --name <codeName>", "Name of the code file")
-      .action(async (flags: { name?: string }) => {
-        readCodeData.readCodeCommand.bind(readCodeData)(flags.name);
+      .argument("[codeName]", "Name of the code file")
+      .action(async (codeName?: string) => {
+        readCodeData.readCodeCommand.bind(readCodeData)(codeName);
       });
   }
 
@@ -117,12 +119,12 @@ class MainProgram {
     this.program
       .command("create-template")
       .description("Create new boilerplate template")
-      .option("-n, --name", "Name of the template")
+      .argument("[templateName]", "Name of the template")
       .option("-s, --source", "Source folder of the template")
-      .action(async (flags: { name?: string; source?: string }) => {
+      .action(async (templateName?: string, flags?: { source?: string }) => {
         createTemplate.createTemplateCode.bind(createTemplate)(
-          flags.name,
-          flags.source
+          templateName,
+          flags?.source
         );
       });
   }
@@ -132,8 +134,9 @@ class MainProgram {
     this.program
       .command("template")
       .description("Add boilerplate template in current directory")
-      .action(async () => {
-        addTemplate.addTemplateCommand.bind(addTemplate)();
+      .argument("[templateName]", "Name of the template")
+      .action(async (templateName?: string) => {
+        addTemplate.addTemplateCommand.bind(addTemplate)(templateName);
       });
   }
 

@@ -6,9 +6,11 @@ import createDirContents from "../utils/createDirContents";
 import process from "node:process";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
+import type { GlobalConfig } from "../types";
 
 export default class AddTemplate {
   private readonly currentUrl = process.cwd();
+
   private async questionAnswers(
     templates: string[]
   ): Promise<{ templateName: string; folderName: string }> {
@@ -34,38 +36,58 @@ export default class AddTemplate {
     return prompt(questions);
   }
 
-  public async addTemplateCommand() {
+  private async addTemplate(
+    globalConfigData: GlobalConfig,
+    templateName: string,
+    folderName: string
+  ) {
+    const template = globalConfigData.allTemplates.find(
+      (template) => template.templateName === templateName
+    );
+
+    if (!template) {
+      console.error("template path not found");
+      process.exit(1);
+    }
+
+    const templatePath = path.join(this.currentUrl, folderName);
+
+    await mkdir(templatePath);
+
+    createDirContents(template.templateFolder, templatePath);
+  }
+
+  public async addTemplateCommand(templateName?: string) {
     const spinner = createSpinner();
     try {
       const globalConfigData = await getGlobalConfigData();
 
       if (globalConfigData.allTemplates.length === 0) {
         console.error(
-          "You do not have any code file. Create new code file by `create` command"
+          "You do not have any template. Create new template by `create-template` command"
         );
         process.exit(1);
       }
 
-      const allTemplates = globalConfigData.allTemplates.map(
-        (template) => template.templateName
-      );
+      if (templateName) {
+        spinner.start({ text: "Start processing...." });
+        await this.addTemplate(globalConfigData, templateName, templateName);
+      } else {
+        const allTemplates = globalConfigData.allTemplates.map(
+          (template) => template.templateName
+        );
 
-      const templateName = await this.questionAnswers(allTemplates);
+        const answers = await this.questionAnswers(allTemplates);
+        spinner.start({ text: "Start processing...." });
 
-      const template = globalConfigData.allTemplates.find(
-        (template) => template.templateName === templateName.templateName
-      );
-
-      if (!template) {
-        console.error("template path not found");
-        process.exit(1);
+        await this.addTemplate(
+          globalConfigData,
+          answers.templateName,
+          answers.folderName
+        );
       }
 
-      const templatePath = path.join(this.currentUrl, templateName.folderName);
-
-      await mkdir(templatePath);
-
-      createDirContents(template.templateFolder, templatePath);
+      spinner.success({ text: "Processing successful." });
     } catch (err) {
       console.error("\nError:", err);
       spinner.error({ text: "Something went wrong" });
