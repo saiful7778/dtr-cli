@@ -32,7 +32,7 @@ class MainProgram {
     this.createNewCodeFile.bind(this)();
     this.readCodeFile.bind(this)();
     this.deleteCodeFile.bind(this)();
-    this.creatTemplate.bind(this)();
+    this.createTemplate.bind(this)();
     this.addTemplate.bind(this)();
   }
 
@@ -116,15 +116,15 @@ class MainProgram {
       });
   }
 
-  private creatTemplate() {
-    const createTemplate = new CreateTemplate();
+  private createTemplate() {
+    const createNewTemplate = new CreateTemplate();
     this.program
       .command("create-template")
       .description("Create new boilerplate template")
       .argument("[templateName]", "Name of the template")
       .option("-s, --source", "Source folder of the template")
       .action(async (templateName?: string, flags?: { source?: string }) => {
-        createTemplate.createTemplateCommand(templateName, flags?.source);
+        createNewTemplate.createTemplateCommand(templateName, flags?.source);
       });
   }
 
