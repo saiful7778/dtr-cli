@@ -6,13 +6,13 @@
 2. [Installation](#installation)
 3. [Usage](#usage)
 4. [Commands](#commands)
-   - [init](#init-options)
-   - [add](#add-options)
-   - [create](#create-options)
-   - [read](#read-options)
-   - [delete](#delete-options)
-   - [create-template](#create-template-options)
-   - [template](#template-options)
+   - [init](#init-command)
+   - [add](#add-command)
+   - [create](#create-command)
+   - [read](#read-command)
+   - [delete](#delete-command)
+   - [create-template](#create-template-command)
+   - [template](#template-command)
 5. [Configuration](#configuration)
 6. [Global Configuration](#global-configuration)
 7. [Install for development](#install-for-development)
@@ -58,7 +58,7 @@ npm install -g dtr-cli
    ```
 4. Add read write permission:
    ```bash
-   sudo chmod 777 -R dtr-cli/
+   sudo chmod 775 -R dtr-cli/
    ```
 
 Now you are ready to use `dtr-cli` by `dtr` command
@@ -68,63 +68,66 @@ Now you are ready to use `dtr-cli` by `dtr` command
 After installation, you can use the `dtr` command followed by the specific subcommand.
 
 ```bash
-dtr <command> [options]
+dtr <command> [argument] [flags]
 ```
 
 ## Commands
 
-### Init options
+### Init command
 
 Initialize the `dtr-config.json` configuration file.
 
 ```bash
-dtr init [options]
+dtr init
 ```
 
-#### Options
+#### Flags
 
-- `-c, --code <codeFolder>`: Path for the code file directory.
+- `-c, --code <codeFolder>`: Path for the code file directory. This is `optional`. This is `optional`.
 
-### Add options
+### Add command
 
 Add a code file to your directory.
 
 ```bash
-dtr add [codeName]
+dtr add
 ```
 
 #### Arguments
 
-- `[codeName]`: Name of the code file you want to add.
+- `[codeName]`: Name of the code file you want to add. This is `optional`. This is `optional`.
 
-### Create options
+### Create command
 
 Create a new code file.
 
 ```bash
-dtr create [options]
+dtr create
 ```
 
-#### Options
+#### Argument
 
-- `-n, --name <codeName>`: Name of the code file.
-- `-f, --from <codeFrom>`: Source of the code file. Accepts 'local' | 'internet'.
-- `-u, --url <internetURL>`: GitHub code URL if you select 'codeFrom' as 'internet'.
-- `-p, --path <localPath>`: Current directory file path if you select 'codeFrom' as 'local'.
+- `[codeName]`: Name of the code file. This is `optional`.
 
-### Read options
+#### Flags
+
+- `-f, --from <codeFrom>`: Source of the code file. Accepts `'local'` | `'internet'`. This is `optional`.
+- `-u, --url <internetURL>`: GitHub code URL if you select 'codeFrom' as 'internet'. This is `optional`.
+- `-p, --path <localPath>`: Current directory file path if you select 'codeFrom' as 'local'. This is `optional`.
+
+### Read command
 
 Read all code files.
 
 ```bash
-dtr read [options]
+dtr read
 ```
 
-#### Options
+#### Argument
 
-- `-n, --name <codeName>`: Name of the code file.
+- `[codeName]`: Name of the code file. This is `optional`.
 
-### Delete options
+### Delete command
 
 Delete a global code file.
 
@@ -132,30 +135,33 @@ Delete a global code file.
 dtr delete
 ```
 
-### Create template options
+### Create template command
 
 Create a new boilerplate template.
 
 ```bash
-dtr create-template [options]
+dtr create-template
 ```
+
+#### Argument
+
+- `[templateName]`: Name of the template. This is `optional`.
 
 #### Options
 
-- `-n, --name <name>`: Name of the template.
-- `-s, --source <source>`: Source folder of the template.
+- `-s, --source <source>`: Source folder of the template. This is `optional`.
 
-### template options
+### Template command
 
 Add a boilerplate template in the current directory.
 
 ```bash
-dtr template [options]
+dtr template
 ```
 
-#### Options
+#### Argument
 
-- `-n, --name <name>`: Name of the template.
+- `[templateName]`: Name of the template. This is `optional`.
 
 ## Configuration
 
