@@ -26,6 +26,10 @@ export default class CreateCode {
 
   private readonly checkFileNameRegx = /^[a-zA-Z0-9_-]+\.[a-zA-Z0-9]+$/g;
 
+  public constructor() {
+    this.createCodeCommand.bind(this);
+  }
+
   private async questionsAnswers(
     codeName?: string,
     codeFrom?: "local" | "internet",

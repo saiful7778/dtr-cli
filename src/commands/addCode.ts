@@ -15,6 +15,10 @@ export default class AddCode {
     "dtr-config.json"
   );
 
+  public constructor() {
+    this.addCodeCommand.bind(this);
+  }
+
   private async getFileNames(
     allFiles: { name: string; value: string }[]
   ): Promise<{ filePaths: string[] }> {

@@ -7,6 +7,9 @@ import { unlink } from "node:fs/promises";
 import { createSpinner } from "nanospinner";
 
 export default class DeleteCode {
+  public constructor() {
+    this.deleteCodeCommand.bind(this);
+  }
   private async getFileName(
     allFiles: { name: string; value: string }[]
   ): Promise<{ fileName: string[]; delConfirm: boolean }> {

@@ -14,7 +14,7 @@ class MainProgram {
   private name = "dtr";
   private description =
     "DTR is an open source developer helping CLI tool build on typescript";
-  private version = "0.2.5";
+  private version = "1.2.5";
   private program: Command;
 
   constructor() {
@@ -25,13 +25,15 @@ class MainProgram {
       .description(this.description)
       .version(this.version);
 
-    this.initDtrConfigFile();
-    this.addCodeFile();
-    this.createNewCodeFile();
-    this.readCodeFile();
-    this.deleteCodeFile();
-    this.creatTemplate();
-    this.addTemplate();
+    this.getProgram.bind(this);
+
+    this.initDtrConfigFile.bind(this)();
+    this.addCodeFile.bind(this)();
+    this.createNewCodeFile.bind(this)();
+    this.readCodeFile.bind(this)();
+    this.deleteCodeFile.bind(this)();
+    this.creatTemplate.bind(this)();
+    this.addTemplate.bind(this)();
   }
 
   private initDtrConfigFile() {
@@ -41,7 +43,7 @@ class MainProgram {
       .description("Initialize the dtr-config.json configuration file")
       .option("-c, --code <codeFolder>", "Path for code file directory")
       .action((flags: { code?: string }) => {
-        initCommand.initCommand.bind(initCommand)(flags?.code);
+        initCommand.initCommand(flags?.code);
       });
   }
 
@@ -52,7 +54,7 @@ class MainProgram {
       .argument("[codeName]", "Name of the code file you want to add")
       .description("Add code file into your directory")
       .action(async (codeName?: string) => {
-        addCodeFile.addCodeCommand.bind(addCodeFile)(codeName);
+        addCodeFile.addCodeCommand(codeName);
       });
   }
 
@@ -83,7 +85,7 @@ class MainProgram {
             path?: string;
           }
         ) => {
-          newCode.createCodeCommand.bind(newCode)(
+          newCode.createCodeCommand(
             codeName,
             flags?.from,
             flags?.url,
@@ -100,7 +102,7 @@ class MainProgram {
       .description("Read all code file")
       .argument("[codeName]", "Name of the code file")
       .action(async (codeName?: string) => {
-        readCodeData.readCodeCommand.bind(readCodeData)(codeName);
+        readCodeData.readCodeCommand(codeName);
       });
   }
 
@@ -110,7 +112,7 @@ class MainProgram {
       .command("delete")
       .description("Delete global code file")
       .action(async () => {
-        deleteCodeFile.deleteCodeCommand.bind(deleteCodeFile)();
+        deleteCodeFile.deleteCodeCommand();
       });
   }
 
@@ -122,10 +124,7 @@ class MainProgram {
       .argument("[templateName]", "Name of the template")
       .option("-s, --source", "Source folder of the template")
       .action(async (templateName?: string, flags?: { source?: string }) => {
-        createTemplate.createTemplateCode.bind(createTemplate)(
-          templateName,
-          flags?.source
-        );
+        createTemplate.createTemplateCommand(templateName, flags?.source);
       });
   }
 
@@ -136,18 +135,18 @@ class MainProgram {
       .description("Add boilerplate template in current directory")
       .argument("[templateName]", "Name of the template")
       .action(async (templateName?: string) => {
-        addTemplate.addTemplateCommand.bind(addTemplate)(templateName);
+        addTemplate.addTemplateCommand(templateName);
       });
   }
 
   public getProgram() {
-    return this.program;
+    return this.program.parse(process.argv);
   }
 }
 
 const mainProgram = new MainProgram();
 
-mainProgram.getProgram.bind(mainProgram)().parse(process.argv);
+mainProgram.getProgram();
 
 /**
  * Exit code

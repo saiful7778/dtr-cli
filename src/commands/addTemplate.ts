@@ -11,6 +11,10 @@ import type { GlobalConfig } from "../types";
 export default class AddTemplate {
   private readonly currentUrl = process.cwd();
 
+  public constructor() {
+    this.addTemplateCommand.bind(this);
+  }
+
   private async questionAnswers(
     templates: string[]
   ): Promise<{ templateName: string; folderName: string }> {

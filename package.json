@@ -1,6 +1,6 @@
 {
   "name": "dtr-cli",
-  "version": "0.2.5",
+  "version": "1.2.5",
   "description": "DTR is an open source developer helping CLI tool build on typescript",
   "main": "build/index.js",
   "scripts": {

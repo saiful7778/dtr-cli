@@ -20,6 +20,10 @@ export default class InitDTRConfig {
   );
   private configData: DtrConfig = dtrConfigStaterData;
 
+  public constructor() {
+    this.initCommand.bind(this);
+  }
+
   private async getConfigData(): Promise<DtrConfig> {
     const configQuestion: QuestionArray<DtrConfig> = [
       {

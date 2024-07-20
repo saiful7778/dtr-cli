@@ -5,6 +5,9 @@ import inquirer from "inquirer";
 import { fileRead } from "../utils/fileSystem";
 
 export default class ReadCode {
+  public constructor() {
+    this.readCodeCommand.bind(this);
+  }
   private async getFileName(allFiles: string[]): Promise<{ fileName: string }> {
     const fileNameQuestion: QuestionArray<GlobalConfigFile> = [
       {

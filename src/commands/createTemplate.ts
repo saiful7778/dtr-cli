@@ -13,6 +13,9 @@ import createDirContents from "../utils/createDirContents";
 import path from "node:path";
 
 export default class CreateTemplate {
+  public constructor() {
+    this.createTemplateCommand.bind(this);
+  }
   private async questionAnswers(
     templateName?: string,
     templateFolder?: string
@@ -85,7 +88,7 @@ export default class CreateTemplate {
     await updateGlobalConfigData({ ...prevConfigData, allTemplates });
   }
 
-  public async createTemplateCode(
+  public async createTemplateCommand(
     templateName?: string,
     templateFolder?: string
   ) {
