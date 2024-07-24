@@ -1,4 +1,4 @@
-export interface GlobalConfigFile {
+export interface GlobalConfigCodeFile {
   fileName: string;
   path: string;
 }
@@ -9,11 +9,11 @@ export interface Template {
 }
 
 export interface GlobalConfig {
-  allFiles: GlobalConfigFile[];
+  allFiles: GlobalConfigCodeFile[];
   allTemplates: Template[];
 }
 
 export interface DtrConfig {
   codeFolder: string;
-  addedCode?: GlobalConfigFile[];
+  addedCode?: GlobalConfigCodeFile[];
 }

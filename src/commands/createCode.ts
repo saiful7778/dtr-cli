@@ -11,7 +11,7 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileRead, fileWrite } from "../utils/fileSystem";
 import { codeFilePath } from "../utils/helpers";
-import type { GlobalConfig, GlobalConfigFile } from "../types";
+import type { GlobalConfig, GlobalConfigCodeFile } from "../types";
 
 type CreateOptions = {
   fileName: string;
@@ -178,7 +178,7 @@ export default class CreateCode {
     fileName: string,
     path: string
   ): Promise<void> {
-    const allFiles: GlobalConfigFile[] = [
+    const allFiles: GlobalConfigCodeFile[] = [
       ...configData.allFiles,
       { fileName, path },
     ];

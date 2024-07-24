@@ -1,6 +1,6 @@
 import { getGlobalConfigData } from "../utils/globalConfig";
 import type { QuestionArray } from "inquirer/dist/cjs/types/types";
-import type { GlobalConfigFile } from "../types";
+import type { GlobalConfigCodeFile } from "../types";
 import inquirer from "inquirer";
 import { fileRead } from "../utils/fileSystem";
 
@@ -9,7 +9,7 @@ export default class ReadCode {
     this.readCodeCommand.bind(this);
   }
   private async getFileName(allFiles: string[]): Promise<{ fileName: string }> {
-    const fileNameQuestion: QuestionArray<GlobalConfigFile> = [
+    const fileNameQuestion: QuestionArray<GlobalConfigCodeFile> = [
       {
         type: "list",
         name: "fileName",
@@ -25,7 +25,7 @@ export default class ReadCode {
 
   private async getFileData(
     fileName: string,
-    allFilesName: GlobalConfigFile[]
+    allFilesName: GlobalConfigCodeFile[]
   ): Promise<string> {
     const fileData = allFilesName.find((file) => file.fileName === fileName);
 

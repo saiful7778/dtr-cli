@@ -6,7 +6,7 @@ import { copyFile } from "node:fs/promises";
 import process from "node:process";
 import path from "node:path";
 import { getDtrConfigData, updateDtrConfigData } from "../utils/dtrConfig";
-import { DtrConfig, GlobalConfigFile } from "../types";
+import { DtrConfig, GlobalConfigCodeFile } from "../types";
 
 export default class AddCode {
   private readonly currentPath = process.cwd();
@@ -37,11 +37,11 @@ export default class AddCode {
 
   private async dtrConfigUpdate(
     prevDtrConfigData: DtrConfig,
-    addedCode: GlobalConfigFile[]
+    addedCode: GlobalConfigCodeFile[]
   ) {
     const allAddedCode = [...prevDtrConfigData.addedCode!, ...addedCode];
 
-    const newAddedCode: GlobalConfigFile[] = [];
+    const newAddedCode: GlobalConfigCodeFile[] = [];
 
     allAddedCode.forEach((file) => {
       const isExist = newAddedCode.find(
@@ -114,7 +114,7 @@ export default class AddCode {
 
       spinner.start({ text: "Start processing...." });
 
-      const newAddedCode: GlobalConfigFile[] = [];
+      const newAddedCode: GlobalConfigCodeFile[] = [];
 
       await Promise.all(
         filePathsValue.filePaths.map(async (filePath) => {
